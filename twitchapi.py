@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import requests
@@ -23,20 +23,23 @@ class TwitchAPI:
 
     # (OAUTH) Se le pasa como parámetro el nombre de un canal de tw, y devuelve en json la información.
     def get_user_data(self, user_name):
+        if self.c_oauth == '':
+            print('Se necesita tener un codigo OAuth para hacer esta petición')
+            return
         r = requests.get('https://api.twitch.tv/helix/users?login=' + user_name, headers=self.oauth_header)
         print(json.dumps(r.json(), sort_keys=True, indent=4))
 
-    # (CLIENT ID) Devuelve un json con contenido en caso de que el usuario pasado se encuentre en streaming.
+    # Devuelve un json con contenido en caso de que el usuario pasado se encuentre en streaming.
     def get_user_stream(self, user_name):
         r = requests.get('https://api.twitch.tv/helix/streams?user_login=' + user_name, headers=self.auth_header)
         print(json.dumps(r.json(), sort_keys=True, indent=4))
 
-    # (CLIENT ID) Devuelve todos los videos del usuario indicado mediante el parámetro user_id.
+    # Devuelve todos los videos del usuario indicado mediante el parámetro user_id.
     def get_all_videos(self, user_id):
         r = requests.get('https://api.twitch.tv/helix/videos?user_id=' + user_id, headers=self.auth_header)
         print(json.dumps(r.json(), sort_keys=True, indent=4))
 
-    # (CLIENT ID) Devuelve información sobre el video que se le pasa en el parámetro video_id.
+    # Devuelve información sobre el video que se le pasa en el parámetro video_id.
     def get_video(self, video_id):
         r = requests.get('https://api.twitch.tv/helix/videos?id=' + video_id, headers=self.auth_header)
         print(json.dumps(r.json(), sort_keys=True, indent=4))
